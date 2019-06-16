@@ -6,17 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/4 | Hexo</title>
+  <title>Jason</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2019/04/index.html">
-<meta property="og:site_name" content="Hexo">
+  <meta name="description" content="本文章要讨论的问题有:  如果帧的VID和Trunk端口的PVID相同, 为什么Trunk端口要将其VID去掉再转发? 连接两台交换机的端口的PVID不同能否通信?(可以直接跳到最后看结论) 两台主机在同一个VLAN下, 但是不在同一个子网, 能否通信?  主要工具: Packet Tracer划分VLAN的方法: 根据交换机端口来划分 概念了解标记帧(tagged frame)和未标记帧(unt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jason">
+<meta property="og:url" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/index.html">
+<meta property="og:site_name" content="Jason">
+<meta property="og:description" content="本文章要讨论的问题有:  如果帧的VID和Trunk端口的PVID相同, 为什么Trunk端口要将其VID去掉再转发? 连接两台交换机的端口的PVID不同能否通信?(可以直接跳到最后看结论) 两台主机在同一个VLAN下, 但是不在同一个子网, 能否通信?  主要工具: Packet Tracer划分VLAN的方法: 根据交换机端口来划分 概念了解标记帧(tagged frame)和未标记帧(unt">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/pic/Experiments-about-Native-VLAN/frame.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/pic/Experiments-about-Native-VLAN/dot1q_tag_format.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/pic/Experiments-about-Native-VLAN/example_dot1q.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/pic/Experiments-about-Native-VLAN/b1.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/pic/Experiments-about-Native-VLAN/b1.2.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/pic/Experiments-about-Native-VLAN/b1.1.png">
+<meta property="og:updated_time" content="2019-06-16T08:55:14.470Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Jason">
+<meta name="twitter:description" content="本文章要讨论的问题有:  如果帧的VID和Trunk端口的PVID相同, 为什么Trunk端口要将其VID去掉再转发? 连接两台交换机的端口的PVID不同能否通信?(可以直接跳到最后看结论) 两台主机在同一个VLAN下, 但是不在同一个子网, 能否通信?  主要工具: Packet Tracer划分VLAN的方法: 根据交换机端口来划分 概念了解标记帧(tagged frame)和未标记帧(unt">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/pic/Experiments-about-Native-VLAN/frame.png">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Jason" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -46,7 +57,7 @@
 			<img src class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">Jason Chen</a></h1>
 		</hgroup>
 		
 
@@ -104,7 +115,7 @@
 				<img src class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">Jason Chen</h1>
 			</hgroup>
 			
 			
@@ -150,76 +161,225 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Experiments-about-Native-VLAN" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文章要讨论的问题有:</p>
+<ol>
+<li>如果帧的VID和Trunk端口的PVID相同, 为什么Trunk端口要将其VID去掉再转发?</li>
+<li>连接两台交换机的端口的PVID不同能否通信?<br>(可以直接跳到最后看结论)</li>
+<li>两台主机在同一个VLAN下, 但是不在同一个子网, 能否通信?</li>
+</ol>
+<p>主要工具: Packet Tracer<br>划分VLAN的方法: 根据交换机端口来划分</p>
+<h1 id="概念了解"><a href="#概念了解" class="headerlink" title="概念了解"></a>概念了解</h1><h2 id="标记帧-tagged-frame-和未标记帧-untagged-frame"><a href="#标记帧-tagged-frame-和未标记帧-untagged-frame" class="headerlink" title="标记帧(tagged frame)和未标记帧(untagged frame)"></a>标记帧(tagged frame)和未标记帧(untagged frame)</h2><p>与普通的帧相比, IEEE 802.1Q帧(以下简称802.1Q帧)在帧的中部多了一个 <strong>VLAN标签</strong><br><img src="./pic/Experiments-about-Native-VLAN/frame.png" alt><br><img src="./pic/Experiments-about-Native-VLAN/dot1q_tag_format.png" alt><br>带了4字节VLAN标签的帧成为标记帧<br>不带4字节的VLAN标签的帧称为未标记帧<br>加标记(签)或去标记(签)是通过交换机处理的</p>
+<h3 id="VLAN标签的细节"><a href="#VLAN标签的细节" class="headerlink" title="VLAN标签的细节"></a>VLAN标签的细节</h3><h4 id="TPID"><a href="#TPID" class="headerlink" title="TPID"></a>TPID</h4><blockquote>
+<p>Tag protocol identifier</p>
+</blockquote>
+<p>这16bits的值是0x8100, 用来标明这个帧的类型是802.1Q. 至于为什么要段信息插在帧的中间, 而不是插在帧的后面或其他地方, 可能是因为这个位置原来刚刚好是普通帧 <em>Ether Type</em> 值的位置</p>
+<h4 id="TCI"><a href="#TCI" class="headerlink" title="TCI"></a>TCI</h4><blockquote>
+<p>Tag control information</p>
+</blockquote>
+<p>16bits的值可以细分为以下三个值</p>
+<ol>
+<li>PCP(Priority code point)</li>
+<li>DEI(Drop eligible indicator)</li>
+<li>VID(VLAN identifier) VLAN标识符:<br>这里就是来标明这个帧是属于哪个VLAN的地方了, 0x000和0xFFF这两个值是保留的, 也就是可以标记4094个VLANs.<br>0x000 表明这个帧没有VLAN ID<br>0x001 表明这个帧属于 管理VLAN</li>
+</ol>
+<p>举个栗子, 我用Cisco的packet tracer做了个仿真实验, 得到了这样一个帧结构<br><img src="./pic/Experiments-about-Native-VLAN/example_dot1q.png" alt><br>TPID位置标明这是802.1Q帧, 通过后面的TCI值可以看出这个帧被标上了VLAN 10的标记</p>
+<h2 id="VLAN-ID"><a href="#VLAN-ID" class="headerlink" title="VLAN ID"></a>VLAN ID</h2><h3 id="端口的缺省VLAN-ID"><a href="#端口的缺省VLAN-ID" class="headerlink" title="端口的缺省VLAN ID"></a>端口的缺省VLAN ID</h3><ul>
+<li>在思科交换机上称为Native VLAN, 即本征VLAN</li>
+<li>在华为交换机上称为PVID(Port VLAN ID), 即端口VLAN ID</li>
+</ul>
+<h2 id="交换机的MAC表"><a href="#交换机的MAC表" class="headerlink" title="交换机的MAC表"></a>交换机的MAC表</h2><table>
+<thead>
+<tr>
+<th>VLAN</th>
+<th>Mac Address</th>
+<th>Port</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>0001.64BC.6BA4</td>
+<td>FastEthernet0/4</td>
+</tr>
+<tr>
+<td>10</td>
+<td>00E0.F78C.296C</td>
+<td>FastEthernet0/1</td>
+</tr>
+<tr>
+<td>20</td>
+<td>000D.BD74.8510</td>
+<td>FastEthernet0/2</td>
+</tr>
+</tbody>
+</table>
+<p>交换机可以根据帧的MAC地址, 在MAC表中查找相应的VLAN ID, 给帧打上标签</p>
+<h2 id="路由器的路由表"><a href="#路由器的路由表" class="headerlink" title="路由器的路由表"></a>路由器的路由表</h2><h2 id="交换机端口类型"><a href="#交换机端口类型" class="headerlink" title="交换机端口类型"></a>交换机端口类型</h2><h3 id="Access端口"><a href="#Access端口" class="headerlink" title="Access端口"></a>Access端口</h3><ul>
+<li>Access端口一般用于连接用户计算机</li>
+<li>Access端口只能属于一个VLAN</li>
+<li>Access端口的PVID与端口所属VLAN的ID相同</li>
+<li>Access端口 <strong>接收</strong> 处理方法:<ul>
+<li>一般只接受”未打标签”的数据帧, 即普通以太网数据帧</li>
+<li>当收到”未打标签”的数据帧时, 根据接收该帧的端口的PVID, 给帧”打标签”, 也就是插入4字节的VLAN标签, 标记中VID的取值与端口的PVID一致</li>
+</ul>
+</li>
+<li>Access端口 <strong>发送</strong> 处理方法:<ul>
+<li>若帧中的VID与端口的PVID相等, 则去除”标签”并转发该帧; 否则不作处理<h3 id="Trunk端口"><a href="#Trunk端口" class="headerlink" title="Trunk端口"></a>Trunk端口</h3></li>
+</ul>
+</li>
+<li>Trunk类型端口可以允许多个VLAN通过, 可以接受和发送多个VLAN报文, Trunk端口一般用于交换机之间或交换机和路由器之间的互连</li>
+<li>Trunk端口可以属于多个VLAN</li>
+<li>用户可以设置Trunk端口的PVID. 默认情况下, Trunk端口的PVID值为1(思科交换机又把Trunk端口的VLAN ID又称为Native VLAN ID)</li>
+<li>Trunk端口 <strong>发送</strong> 处理方法:<ul>
+<li>对于数据帧中的VID等于端口PVID的数据帧, 去掉”标签”再转发</li>
+<li>对于数据帧中的VID不等于端口PVID的数据帧, 直接转发</li>
+</ul>
+</li>
+<li>Trunk端口 <strong>接收</strong> 处理方法:<ul>
+<li>接收”已打标签”的数据帧, 而不管数据帧中的VID是否等于端口的PVID</li>
+<li>接收”未打标签”的数据帧, 根据端口的PVID值给帧”打标签”, 即插入4字节VLAN ID字段, 字段中的VID取值与端口PVID取值相等<h3 id="Hybrid端口"><a href="#Hybrid端口" class="headerlink" title="Hybrid端口"></a>Hybrid端口</h3></li>
+</ul>
+</li>
+<li>(华为交换机才有这个端口)</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="两个交换机的Trunk端口的PVID不同"><a href="#两个交换机的Trunk端口的PVID不同" class="headerlink" title="两个交换机的Trunk端口的PVID不同"></a>两个交换机的Trunk端口的PVID不同</h2><h3 id="Native-VLAN和有的主机所属的VLAN相同"><a href="#Native-VLAN和有的主机所属的VLAN相同" class="headerlink" title="Native VLAN和有的主机所属的VLAN相同"></a>Native VLAN和有的主机所属的VLAN相同</h3><p>如图(switch0的Native VLAN和主机A的VLAN ID相同)</p>
+<h4 id="交换机的配置命令"><a href="#交换机的配置命令" class="headerlink" title="交换机的配置命令"></a>交换机的配置命令</h4><pre><code>
+</code></pre><p><img src="./pic/Experiments-about-Native-VLAN/b1.png" alt></p>
+<h4 id="A-ping-C-Failed"><a href="#A-ping-C-Failed" class="headerlink" title="A ping C (Failed)"></a>A ping C (Failed)</h4><ol>
+<li>主机A发送普通帧到switch0</li>
+<li>switch0给帧打上VLAN10的标签</li>
+<li>switch0将帧从f0/1(Trunk)端口发出,<br><img src="./pic/Experiments-about-Native-VLAN/b1.2.png" alt><br><img src="./pic/Experiments-about-Native-VLAN/b1.1.png" alt><h4 id="A-ping-D"><a href="#A-ping-D" class="headerlink" title="A ping D"></a>A ping D</h4><h4 id="C-ping-A"><a href="#C-ping-A" class="headerlink" title="C ping A"></a>C ping A</h4><h4 id="D-ping-B"><a href="#D-ping-B" class="headerlink" title="D ping B"></a>D ping B</h4><h3 id="Native-VLAN没有和任何主机所属的VLAN相同"><a href="#Native-VLAN没有和任何主机所属的VLAN相同" class="headerlink" title="Native VLAN没有和任何主机所属的VLAN相同"></a>Native VLAN没有和任何主机所属的VLAN相同</h3></li>
+</ol>
+<h1 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h1><p>1.</p>
+<p><br><br><b>Reference List</b>:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/IEEE_802.1Q" target="_blank" rel="noopener">wikipedia IEEE 802.1Q</a></li>
+<li><a href="https://www.bilibili.com/video/av34491171" target="_blank" rel="noopener">B站是个好东西之计算机网络-虚拟局域网VLAN</a></li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/11/my-first-blog/" class="archive-article-date">
-  	<time datetime="2019-04-11T08:31:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/11/my-first-blog/">my first blog</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/16/Experiments-about-Native-VLAN/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/11/hello-world/" class="archive-article-date">
-  	<time datetime="2019-04-11T08:27:06.413Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-11</time>
-</a>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/11/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -229,7 +389,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 John Doe
+    		&copy; 2019 Jason Chen
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -242,8 +402,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
