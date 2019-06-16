@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Jason</title>
+  <title>�մ�</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
-<meta property="og:title" content="Jason">
+<meta property="og:title" content="�մ�">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Jason">
+<meta property="og:site_name" content="�մ�">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jason">
+<meta name="twitter:title" content="�մ�">
   
-    <link rel="alternative" href="/atom.xml" title="Jason" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="�մ�" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -164,7 +164,7 @@
 <li>两台主机在同一个VLAN下, 但是不在同一个子网, 能否通信?</li>
 </ol>
 <p>主要工具: Packet Tracer<br>划分VLAN的方法: 根据交换机端口来划分</p>
-<h1 id="概念了解"><a href="#概念了解" class="headerlink" title="概念了解"></a>概念了解</h1><h2 id="标记帧-tagged-frame-和未标记帧-untagged-frame"><a href="#标记帧-tagged-frame-和未标记帧-untagged-frame" class="headerlink" title="标记帧(tagged frame)和未标记帧(untagged frame)"></a>标记帧(tagged frame)和未标记帧(untagged frame)</h2><p>与普通的帧相比, IEEE 802.1Q帧(以下简称802.1Q帧)在帧的中部多了一个 <strong>VLAN标签</strong><br><img src="./pic/Experiments-about-Native-VLAN/frame.png" alt><br><img src="./pic/Experiments-about-Native-VLAN/dot1q_tag_format.png" alt><br>带了4字节VLAN标签的帧成为标记帧<br>不带4字节的VLAN标签的帧称为未标记帧<br>加标记(签)或去标记(签)是通过交换机处理的</p>
+<h1 id="概念了解"><a href="#概念了解" class="headerlink" title="概念了解"></a>概念了解</h1><h2 id="标记帧-tagged-frame-和未标记帧-untagged-frame"><a href="#标记帧-tagged-frame-和未标记帧-untagged-frame" class="headerlink" title="标记帧(tagged frame)和未标记帧(untagged frame)"></a>标记帧(tagged frame)和未标记帧(untagged frame)</h2><p>与普通的帧相比, IEEE 802.1Q帧(以下简称802.1Q帧)在帧的中部多了一个 <strong>VLAN标签</strong><br><img src="/2019/06/16/Experiments-about-Native-VLAN/frame.png" alt><br><img src="/2019/06/16/Experiments-about-Native-VLAN/dot1q_tag_format.png" alt><br>带了4字节VLAN标签的帧成为标记帧<br>不带4字节的VLAN标签的帧称为未标记帧<br>加标记(签)或去标记(签)是通过交换机处理的</p>
 <h3 id="VLAN标签的细节"><a href="#VLAN标签的细节" class="headerlink" title="VLAN标签的细节"></a>VLAN标签的细节</h3><h4 id="TPID"><a href="#TPID" class="headerlink" title="TPID"></a>TPID</h4><blockquote>
 <p>Tag protocol identifier</p>
 </blockquote>
@@ -178,7 +178,7 @@
 <li>DEI(Drop eligible indicator)</li>
 <li>VID(VLAN identifier) VLAN标识符:<br>这里就是来标明这个帧是属于哪个VLAN的地方了, 0x000和0xFFF这两个值是保留的, 也就是可以标记4094个VLANs.<br>0x000 表明这个帧没有VLAN ID<br>0x001 表明这个帧属于 管理VLAN</li>
 </ol>
-<p>举个栗子, 我用Cisco的packet tracer做了个仿真实验, 得到了这样一个帧结构<br><img src="./pic/Experiments-about-Native-VLAN/example_dot1q.png" alt><br>TPID位置标明这是802.1Q帧, 通过后面的TCI值可以看出这个帧被标上了VLAN 10的标记</p>
+<p>举个栗子, 我用Cisco的packet tracer做了个仿真实验, 得到了这样一个帧结构<br><img src="/2019/06/16/Experiments-about-Native-VLAN/example_dot1q.png" alt><br>TPID位置标明这是802.1Q帧, 通过后面的TCI值可以看出这个帧被标上了VLAN 10的标记</p>
 <h2 id="VLAN-ID"><a href="#VLAN-ID" class="headerlink" title="VLAN ID"></a>VLAN ID</h2><h3 id="端口的缺省VLAN-ID"><a href="#端口的缺省VLAN-ID" class="headerlink" title="端口的缺省VLAN ID"></a>端口的缺省VLAN ID</h3><ul>
 <li>在思科交换机上称为Native VLAN, 即本征VLAN</li>
 <li>在华为交换机上称为PVID(Port VLAN ID), 即端口VLAN ID</li>
@@ -240,11 +240,11 @@
 </ul>
 <h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="两个交换机的Trunk端口的PVID不同"><a href="#两个交换机的Trunk端口的PVID不同" class="headerlink" title="两个交换机的Trunk端口的PVID不同"></a>两个交换机的Trunk端口的PVID不同</h2><h3 id="Native-VLAN和有的主机所属的VLAN相同"><a href="#Native-VLAN和有的主机所属的VLAN相同" class="headerlink" title="Native VLAN和有的主机所属的VLAN相同"></a>Native VLAN和有的主机所属的VLAN相同</h3><p>如图(switch0的Native VLAN和主机A的VLAN ID相同)</p>
 <h4 id="交换机的配置命令"><a href="#交换机的配置命令" class="headerlink" title="交换机的配置命令"></a>交换机的配置命令</h4><pre><code>
-</code></pre><p><img src="./pic/Experiments-about-Native-VLAN/b1.png" alt></p>
+</code></pre><p><img src="/2019/06/16/Experiments-about-Native-VLAN/b1.png" alt></p>
 <h4 id="A-ping-C-Failed"><a href="#A-ping-C-Failed" class="headerlink" title="A ping C (Failed)"></a>A ping C (Failed)</h4><ol>
 <li>主机A发送普通帧到switch0</li>
 <li>switch0给帧打上VLAN10的标签</li>
-<li>switch0将帧从f0/1(Trunk)端口发出,<br><img src="./pic/Experiments-about-Native-VLAN/b1.2.png" alt><br><img src="./pic/Experiments-about-Native-VLAN/b1.1.png" alt><h4 id="A-ping-D"><a href="#A-ping-D" class="headerlink" title="A ping D"></a>A ping D</h4><h4 id="C-ping-A"><a href="#C-ping-A" class="headerlink" title="C ping A"></a>C ping A</h4><h4 id="D-ping-B"><a href="#D-ping-B" class="headerlink" title="D ping B"></a>D ping B</h4><h3 id="Native-VLAN没有和任何主机所属的VLAN相同"><a href="#Native-VLAN没有和任何主机所属的VLAN相同" class="headerlink" title="Native VLAN没有和任何主机所属的VLAN相同"></a>Native VLAN没有和任何主机所属的VLAN相同</h3></li>
+<li>switch0将帧从f0/1(Trunk)端口发出,<br><img src="/2019/06/16/Experiments-about-Native-VLAN/b1.2.png" alt><br><img src="/2019/06/16/Experiments-about-Native-VLAN/b1.1.png" alt><h4 id="A-ping-D"><a href="#A-ping-D" class="headerlink" title="A ping D"></a>A ping D</h4><h4 id="C-ping-A"><a href="#C-ping-A" class="headerlink" title="C ping A"></a>C ping A</h4><h4 id="D-ping-B"><a href="#D-ping-B" class="headerlink" title="D ping B"></a>D ping B</h4><h3 id="Native-VLAN没有和任何主机所属的VLAN相同"><a href="#Native-VLAN没有和任何主机所属的VLAN相同" class="headerlink" title="Native VLAN没有和任何主机所属的VLAN相同"></a>Native VLAN没有和任何主机所属的VLAN相同</h3></li>
 </ol>
 <h1 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h1><p>1.</p>
 <p><br><br><b>Reference List</b>:</p>
